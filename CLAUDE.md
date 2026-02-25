@@ -140,5 +140,5 @@ ADMIN_EMAIL=...             # 알림 수신 이메일 (서버 전용)
   - /admin 로그인 및 목록 조회 정상
 - 관리자 보안 개선 완료 (비밀번호 변경, 문서 노출 제거, RLS 정책 추가)
 - 관리자 비밀번호 서버사이드 검증으로 전환 완료 (API Route + 환경변수)
-- 새 예약 이메일 알림 기능 추가 (Resend API)
+- 새 예약 이메일 알림 기능 추가 (Resend API) — Production 테스트 완료 (이메일 수신 확인)
 - Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_PASSWORD, RESEND_API_KEY, ADMIN_EMAIL (5개)

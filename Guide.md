@@ -13,6 +13,7 @@
 | GitHub | https://github.com/JMoodMusic/Vibe-Form-Math-Academy- | 코드 저장소 |
 | Supabase | https://supabase.com | 데이터베이스 관리 |
 | Vercel | https://vercel.com | 배포 서버 관리 |
+| Resend | https://resend.com | 이메일 알림 서비스 |
 
 ---
 
@@ -98,6 +99,7 @@ vibe-form/
 │   ├── complete/         ← 신청 완료 페이지 (/complete)
 │   └── admin/            ← 관리자 페이지 (/admin)
 ├── src/app/api/auth/     ← 관리자 로그인 API
+├── src/app/api/reserve/  ← 예약 접수 API (DB 저장 + 이메일 알림)
 ├── .env.local            ← API 키 + 관리자 비밀번호 (절대 GitHub에 올리면 안 됨!)
 ├── REQUIREMENTS.md       ← 요구사항 명세서
 ├── CLAUDE.md             ← 개발 히스토리 (Claude용)
@@ -178,25 +180,25 @@ npm run dev
                │  · 관리자 대시보드     │
                └───────────┬───────────┘
                            │
-                  데이터 저장/조회
+                  예약 접수 API 호출
                            │
-                           ▼
-               ┌───────────────────────┐
-               │     ④ Supabase        │
-               │  (데이터베이스)        │
-               │                       │
-               │  reservations 테이블  │
-               │  · 학생 이름, 학년    │
-               │  · 연락처, 희망일시   │
-               │  · 상태, 메모 등      │
-               └───────────────────────┘
+                    ┌──────┴──────┐
+                    ▼             ▼
+     ┌──────────────────┐  ┌──────────────────┐
+     │   ④ Supabase     │  │   ⑤ Resend       │
+     │  (데이터베이스)   │  │  (이메일 알림)   │
+     │                  │  │                  │
+     │  reservations    │  │  새 예약 접수 시  │
+     │  테이블에 저장    │  │  관리자에게      │
+     │                  │  │  이메일 발송      │
+     └──────────────────┘  └──────────────────┘
 ```
 
 ### 흐름 요약
 
 ```
 [학부모가 예약 신청하면]
-  브라우저 → Vercel(Next.js 앱 로딩) → 폼 제출 → Supabase(DB에 저장)
+  브라우저 → Vercel(Next.js 앱 로딩) → 폼 제출 → API Route → Supabase(DB에 저장) + Resend(이메일 알림)
 
 [관리자가 확인하면]
   브라우저 → Vercel(/admin 페이지 로딩) → Supabase(목록 조회, 상태 변경)
@@ -213,6 +215,7 @@ npm run dev
 | **GitHub** | 코드를 안전하게 저장하고 버전 관리 |
 | **Vercel** | GitHub에서 코드를 받아 인터넷에 배포 |
 | **Supabase** | 예약 데이터를 저장하는 데이터베이스 |
+| **Resend** | 새 예약 시 관리자에게 이메일 알림을 보내는 서비스 |
 
 ---
 
@@ -227,6 +230,7 @@ npm run dev
 | **git push** | 내 컴퓨터의 코드를 GitHub에 올리는 명령어 |
 | **npm run dev** | 내 컴퓨터에서 개발용 서버를 시작하는 명령어 |
 | **localhost:3000** | 내 컴퓨터에서만 접속 가능한 개발용 주소 |
+| **Resend** | 새 예약이 들어오면 관리자에게 이메일을 보내주는 서비스 |
 | **.env.local** | API 키 등 비밀 정보를 담은 파일 (외부 공개 금지) |
 
 ---
@@ -251,3 +255,4 @@ npm run dev
 | 14 | Production 테스트 완료 |
 | 15 | 보안 개선 (비밀번호 문서 노출 제거, RLS 정책 추가) |
 | 16 | 관리자 비밀번호 서버사이드 이전 (API Route + 환경변수) |
+| 17 | 새 예약 이메일 알림 기능 추가 (Resend API) |
