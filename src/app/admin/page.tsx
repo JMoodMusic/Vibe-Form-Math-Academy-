@@ -25,7 +25,7 @@ export default function AdminPage() {
   const [filterDate, setFilterDate] = useState('')
 
   const handleLogin = () => {
-    if (password === 'admin1234') {
+    if (password === 'adogen1234') {
       sessionStorage.setItem('admin_authed', 'true')
       setAuthed(true)
     } else {
