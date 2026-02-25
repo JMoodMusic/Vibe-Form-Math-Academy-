@@ -20,7 +20,7 @@
 
 ### 접속 방법
 1. `https://vibe-form-math-academy.vercel.app/admin` 접속
-2. 비밀번호 입력: `admin1234`
+2. 비밀번호 입력: (별도 전달된 비밀번호 사용)
 3. 로그인 → 신청 목록 확인
 
 ### 할 수 있는 것들
@@ -78,7 +78,7 @@ git push
 
 ### 방법 1: 관리자 페이지에서 확인 (일반적인 방법)
 - `https://vibe-form-math-academy.vercel.app/admin` 접속
-- 비밀번호 `admin1234` 입력
+- 비밀번호 입력 (별도 전달된 비밀번호 사용)
 
 ### 방법 2: Supabase에서 직접 확인 (상세 데이터)
 1. `https://supabase.com` 접속 → 로그인
@@ -119,7 +119,7 @@ npm run dev
 ```
 
 ### Q. 관리자 비밀번호가 뭐예요?
-- `admin1234`
+- 별도로 전달된 비밀번호를 사용하세요. (보안을 위해 문서에 기록하지 않습니다)
 
 ### Q. 신청 데이터를 삭제하고 싶어요
 - Supabase → Table Editor → `reservations` → 해당 행 선택 → Delete
