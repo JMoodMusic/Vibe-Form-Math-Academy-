@@ -24,8 +24,15 @@ export default function AdminPage() {
   const [filterStatus, setFilterStatus] = useState('')
   const [filterDate, setFilterDate] = useState('')
 
-  const handleLogin = () => {
-    if (password === 'adogen1234') {
+  const handleLogin = async () => {
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+    const data = await res.json()
+
+    if (data.success) {
       sessionStorage.setItem('admin_authed', 'true')
       setAuthed(true)
     } else {

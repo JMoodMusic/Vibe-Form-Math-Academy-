@@ -93,6 +93,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 22. 보안 개선
     - Guide.md에서 관리자 비밀번호 직접 노출 제거
     - 관리자 비밀번호 변경 (보안을 위해 문서에 기록하지 않음)
+23. 관리자 비밀번호 서버사이드 이전
+    - 하드코딩된 비밀번호(`admin/page.tsx`)를 서버 환경변수(`ADMIN_PASSWORD`)로 이전
+    - `src/app/api/auth/route.ts` API Route 생성 (POST로 비밀번호 검증)
+    - 클라이언트 JS 번들에 비밀번호가 노출되지 않도록 개선
+    - Vercel 배포 시 `ADMIN_PASSWORD` 환경변수 수동 추가 필요
 
 ## 주요 문서
 - `REQUIREMENTS.md` - 요구사항 명세서
