@@ -21,6 +21,8 @@ export default function AdminDetailPage({ params }: { params: Promise<{ id: stri
   const router = useRouter()
   const [reservation, setReservation] = useState<Reservation | null>(null)
   const [memo, setMemo] = useState('')
+  const [savedMemo, setSavedMemo] = useState('')
+  const [isEditing, setIsEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -33,6 +35,8 @@ export default function AdminDetailPage({ params }: { params: Promise<{ id: stri
       if (data) {
         setReservation(data)
         setMemo(data.admin_memo || '')
+        setSavedMemo(data.admin_memo || '')
+        setIsEditing(!data.admin_memo)
       }
     }
     fetch()
@@ -57,9 +61,15 @@ export default function AdminDetailPage({ params }: { params: Promise<{ id: stri
     setSaving(false)
     if (!error) {
       setReservation({ ...reservation, admin_memo: memo })
+      setSavedMemo(memo)
+      setIsEditing(false)
       alert('메모가 저장되었습니다.')
+    } else {
+      alert('메모 저장에 실패했습니다. Supabase RLS UPDATE 정책을 확인해주세요.')
     }
   }
+
+  const MEMO_TEMPLATE = `[현재 수준]\n\n[추천 반]\n\n[상담 내용]\n\n[다음 상담일]\n`
 
   if (!reservation) {
     return <div className="min-h-screen flex items-center justify-center text-gray-400">불러오는 중...</div>
@@ -132,20 +142,55 @@ export default function AdminDetailPage({ params }: { params: Promise<{ id: stri
         {/* 관리자 메모 */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="font-bold text-gray-700 mb-4">관리자 메모</h2>
-          <textarea
-            value={memo}
-            onChange={(e) => setMemo(e.target.value)}
-            placeholder="현재 수준, 추천 반, 상담 내용 요약 등을 기록하세요."
-            rows={5}
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-none"
-          />
-          <button
-            onClick={handleSaveMemo}
-            disabled={saving}
-            className="mt-3 bg-blue-700 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-800 transition disabled:opacity-50 text-sm"
-          >
-            {saving ? '저장 중...' : '메모 저장'}
-          </button>
+
+          {isEditing ? (
+            <>
+              <textarea
+                value={memo}
+                onChange={(e) => setMemo(e.target.value)}
+                placeholder="현재 수준, 추천 반, 상담 내용 요약 등을 기록하세요."
+                rows={8}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-none"
+              />
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  onClick={handleSaveMemo}
+                  disabled={saving}
+                  className="bg-blue-700 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-800 transition disabled:opacity-50 text-sm"
+                >
+                  {saving ? '저장 중...' : '저장'}
+                </button>
+                {savedMemo && (
+                  <button
+                    onClick={() => { setMemo(savedMemo); setIsEditing(false) }}
+                    className="border border-gray-300 text-gray-600 font-bold px-6 py-2 rounded-lg hover:bg-gray-50 transition text-sm"
+                  >
+                    취소
+                  </button>
+                )}
+                {!memo.trim() && (
+                  <button
+                    onClick={() => setMemo(MEMO_TEMPLATE)}
+                    className="border border-blue-300 text-blue-600 font-bold px-4 py-2 rounded-lg hover:bg-blue-50 transition text-sm"
+                  >
+                    템플릿 불러오기
+                  </button>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-gray-50 rounded-lg px-4 py-3 text-sm text-gray-800 whitespace-pre-wrap min-h-[60px]">
+                {savedMemo}
+              </div>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="mt-3 border border-gray-300 text-gray-600 font-bold px-6 py-2 rounded-lg hover:bg-gray-50 transition text-sm"
+              >
+                수정하기
+              </button>
+            </>
+          )}
         </div>
 
       </div>
