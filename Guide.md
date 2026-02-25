@@ -97,7 +97,8 @@ vibe-form/
 │   ├── reserve/          ← 예약 신청 폼 (/reserve)
 │   ├── complete/         ← 신청 완료 페이지 (/complete)
 │   └── admin/            ← 관리자 페이지 (/admin)
-├── .env.local            ← API 키 (절대 GitHub에 올리면 안 됨!)
+├── src/app/api/auth/     ← 관리자 로그인 API
+├── .env.local            ← API 키 + 관리자 비밀번호 (절대 GitHub에 올리면 안 됨!)
 ├── REQUIREMENTS.md       ← 요구사항 명세서
 ├── CLAUDE.md             ← 개발 히스토리 (Claude용)
 └── Guide.md              ← 이 파일
@@ -248,3 +249,5 @@ npm run dev
 | 12 | GitHub에 코드 업로드 |
 | 13 | Vercel로 배포 완료 |
 | 14 | Production 테스트 완료 |
+| 15 | 보안 개선 (비밀번호 문서 노출 제거, RLS 정책 추가) |
+| 16 | 관리자 비밀번호 서버사이드 이전 (API Route + 환경변수) |

@@ -20,10 +20,13 @@ src/
 │   │   └── page.tsx      # 예약 신청 폼 (/reserve)
 │   ├── complete/
 │   │   └── page.tsx      # 신청 완료 (/complete)
-│   └── admin/
-│       ├── page.tsx      # 관리자 목록 (/admin)
-│       └── [id]/
-│           └── page.tsx  # 관리자 상세 (/admin/:id)
+│   ├── admin/
+│   │   ├── page.tsx      # 관리자 목록 (/admin)
+│   │   └── [id]/
+│   │       └── page.tsx  # 관리자 상세 (/admin/:id)
+│   └── api/
+│       └── auth/
+│           └── route.ts  # 관리자 로그인 API (POST)
 ├── lib/
 │   └── supabase.ts       # Supabase 클라이언트
 └── types/
@@ -34,6 +37,7 @@ src/
 ```
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+ADMIN_PASSWORD=...          # 서버 전용 (NEXT_PUBLIC_ 없음)
 ```
 
 ## 작업 규칙
@@ -123,3 +127,5 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
   - Supabase 데이터 저장 확인
   - /admin 로그인 및 목록 조회 정상
 - 관리자 보안 개선 완료 (비밀번호 변경, 문서 노출 제거, RLS 정책 추가)
+- 관리자 비밀번호 서버사이드 검증으로 전환 완료 (API Route + 환경변수)
+- Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_PASSWORD (3개)
