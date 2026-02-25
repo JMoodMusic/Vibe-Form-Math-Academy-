@@ -87,6 +87,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
     - Production URL: https://vibe-form-math-academy.vercel.app
     - GitHub 저장소 연결 후 Deploy 완료
     - 환경변수 NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY 설정 완료
+21. Supabase RLS 정책 추가
+    - `reservations` 테이블에 SELECT 정책 추가 (`Allow public read`)
+    - 관리자 페이지에서 데이터 조회 안 되던 문제 해결
+22. 보안 개선
+    - Guide.md에서 관리자 비밀번호 직접 노출 제거
+    - 관리자 비밀번호 변경 (보안을 위해 문서에 기록하지 않음)
 
 ## 주요 문서
 - `REQUIREMENTS.md` - 요구사항 명세서
@@ -111,4 +117,4 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
   - 폼 제출 → /complete 페이지 이동 정상
   - Supabase 데이터 저장 확인
   - /admin 로그인 및 목록 조회 정상
-- 미완료: 관리자 보안 강화
+- 관리자 보안 개선 완료 (비밀번호 변경, 문서 노출 제거, RLS 정책 추가)
