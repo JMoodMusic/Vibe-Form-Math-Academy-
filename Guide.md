@@ -1,0 +1,166 @@
+# 미라클 수학 예약 폼 - 처음부터 끝까지 가이드
+
+> 개발 경험이 없어도 이 문서 하나로 모든 것을 해결할 수 있도록 정리했습니다.
+
+---
+
+## 중요 주소 모음 (자주 쓰는 것들)
+
+| 이름 | 주소 | 설명 |
+|------|------|------|
+| 실제 서비스 | https://vibe-form-math-academy.vercel.app | 학부모가 접속하는 사이트 |
+| 관리자 페이지 | https://vibe-form-math-academy.vercel.app/admin | 신청 내역 관리 |
+| GitHub | https://github.com/JMoodMusic/Vibe-Form-Math-Academy- | 코드 저장소 |
+| Supabase | https://supabase.com | 데이터베이스 관리 |
+| Vercel | https://vercel.com | 배포 서버 관리 |
+
+---
+
+## 관리자 페이지 사용법
+
+### 접속 방법
+1. `https://vibe-form-math-academy.vercel.app/admin` 접속
+2. 비밀번호 입력: `admin1234`
+3. 로그인 → 신청 목록 확인
+
+### 할 수 있는 것들
+- **신청 목록 확인**: 학년, 상태, 날짜로 필터링 가능
+- **상태 변경**: 접수 → 연락완료 → 확정 → 완료 → 취소
+- **메모 작성**: 현재 수준, 추천 반, 상담 내용 기록
+
+---
+
+## 로컬(내 컴퓨터)에서 개발하는 법
+
+> "로컬"이란? 인터넷에 올라간 서비스가 아니라 내 컴퓨터에서만 돌아가는 개발용 환경이에요.
+> 코드를 수정하고 확인할 때 사용합니다.
+
+### 개발 서버 시작하기
+1. Windows Terminal 열기 (시작 메뉴에서 "Windows Terminal" 검색)
+2. 아래 명령어 입력:
+```bash
+cd C:\Users\jsjee\Desktop\vibe-form
+npm run dev
+```
+3. 브라우저에서 `http://localhost:3000` 접속
+
+### 개발 서버 끄기
+- 터미널에서 `Ctrl + C` 누르기
+
+---
+
+## 코드 수정 후 배포하는 법
+
+> 코드를 수정해도 자동으로 인터넷 서비스에 반영되지 않아요.
+> 아래 순서대로 해야 실제 서비스에 반영됩니다.
+
+### 순서
+1. Windows Terminal 열기
+2. 아래 명령어를 순서대로 입력:
+
+```bash
+# 1. 변경된 파일 모두 선택
+git add .
+
+# 2. 변경 내용 저장 (메시지는 자유롭게)
+git commit -m "수정한 내용 설명"
+
+# 3. GitHub에 올리기
+git push
+```
+
+3. `git push` 완료 → Vercel이 자동으로 새 버전 배포 (1~2분 소요)
+4. `https://vibe-form-math-academy.vercel.app` 새로고침해서 확인
+
+---
+
+## 데이터(신청 내역) 확인하는 법
+
+### 방법 1: 관리자 페이지에서 확인 (일반적인 방법)
+- `https://vibe-form-math-academy.vercel.app/admin` 접속
+- 비밀번호 `admin1234` 입력
+
+### 방법 2: Supabase에서 직접 확인 (상세 데이터)
+1. `https://supabase.com` 접속 → 로그인
+2. `JMOODMusic's Project` 클릭
+3. 왼쪽 메뉴 **Table Editor** 클릭
+4. `reservations` 테이블 클릭 → 전체 데이터 확인 가능
+
+---
+
+## 프로젝트 구조 설명
+
+```
+vibe-form/
+├── src/app/
+│   ├── page.tsx          ← 랜딩 페이지 (/)
+│   ├── reserve/          ← 예약 신청 폼 (/reserve)
+│   ├── complete/         ← 신청 완료 페이지 (/complete)
+│   └── admin/            ← 관리자 페이지 (/admin)
+├── .env.local            ← API 키 (절대 GitHub에 올리면 안 됨!)
+├── REQUIREMENTS.md       ← 요구사항 명세서
+├── CLAUDE.md             ← 개발 히스토리 (Claude용)
+└── Guide.md              ← 이 파일
+```
+
+---
+
+## 자주 묻는 것들
+
+### Q. 코드 수정했는데 화면이 안 바뀌어요
+- 로컬: 브라우저 새로고침 (Ctrl + R)
+- 배포 서버: `git push` 후 1~2분 기다렸다가 새로고침
+
+### Q. `npm run dev` 했는데 에러가 나요
+- 터미널에서 아래 명령어 실행 후 다시 시도:
+```bash
+npm install
+npm run dev
+```
+
+### Q. 관리자 비밀번호가 뭐예요?
+- `admin1234`
+
+### Q. 신청 데이터를 삭제하고 싶어요
+- Supabase → Table Editor → `reservations` → 해당 행 선택 → Delete
+
+### Q. 학원 이름이나 연락처를 바꾸고 싶어요
+- `src/app/page.tsx` 파일 수정 (랜딩 페이지)
+- `src/app/complete/page.tsx` 파일 수정 (완료 페이지)
+- 수정 후 `git add . → git commit → git push`
+
+---
+
+## 용어 설명
+
+| 용어 | 설명 |
+|------|------|
+| **Next.js** | 이 프로젝트에서 사용한 웹 개발 도구 |
+| **Supabase** | 신청 데이터를 저장하는 데이터베이스 서버 |
+| **Vercel** | 만든 웹사이트를 인터넷에 올려주는 서비스 |
+| **GitHub** | 코드를 저장하고 관리하는 서비스 |
+| **git push** | 내 컴퓨터의 코드를 GitHub에 올리는 명령어 |
+| **npm run dev** | 내 컴퓨터에서 개발용 서버를 시작하는 명령어 |
+| **localhost:3000** | 내 컴퓨터에서만 접속 가능한 개발용 주소 |
+| **.env.local** | API 키 등 비밀 정보를 담은 파일 (외부 공개 금지) |
+
+---
+
+## 처음부터 지금까지 한 일 요약
+
+| 단계 | 내용 |
+|------|------|
+| 1 | 요구사항 정리 (REQUIREMENTS.md 작성) |
+| 2 | Next.js 프로젝트 초기화 |
+| 3 | Supabase 가입 & 데이터베이스 테이블 생성 |
+| 4 | 환경변수 설정 (.env.local) |
+| 5 | 랜딩 페이지 제작 |
+| 6 | 예약 신청 폼 제작 |
+| 7 | 신청 완료 페이지 제작 |
+| 8 | 관리자 대시보드 제작 |
+| 9 | 관리자 상세 페이지 제작 |
+| 10 | UX 개선 (유형 자동선택, 전화번호 자동포맷, 학교명 자동완성 등) |
+| 11 | 브랜드 커스터마이징 (미라클 수학, 연락처 등) |
+| 12 | GitHub에 코드 업로드 |
+| 13 | Vercel로 배포 완료 |
+| 14 | Production 테스트 완료 |

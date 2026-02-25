@@ -78,6 +78,20 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
     - 상단 헤더("미라클 수학" 로고 + "상담 예약하기" 버튼) 제거 → 히어로 섹션부터 바로 시작
 18. 상담 폼 UI 개선
     - 상단에 "홈으로" 버튼 추가
+19. GitHub 배포
+    - 저장소: https://github.com/JMoodMusic/Vibe-Form-Math-Academy-.git
+    - 브랜치: main
+    - 커밋: "feat: 미라클 수학 예약 폼 MVP 완성"
+    - `.env.local`은 .gitignore로 제외 (API 키 보안)
+20. Vercel 배포 완료
+    - Production URL: https://vibe-form-math-academy.vercel.app
+    - GitHub 저장소 연결 후 Deploy 완료
+    - 환경변수 NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY 설정 완료
+
+## 주요 문서
+- `REQUIREMENTS.md` - 요구사항 명세서
+- `CLAUDE.md` - 개발 히스토리 및 작업 규칙 (이 파일)
+- `Guide.md` - 비개발자용 운영 가이드 (접속 방법, 배포, 용어 설명 등)
 
 ## 학원 정보
 - 학원명: 미라클 수학
@@ -89,4 +103,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 - MVP 전체 기능 구현 완료 + UX 개선 + 브랜드 커스터마이징 완료
 - 로컬 개발 환경(`npm run dev`)에서 정상 동작 확인
 - Supabase DB 연동 및 데이터 저장/조회 확인
-- 미완료: 인터넷 배포(Vercel), 관리자 보안 강화
+- GitHub 업로드 완료 (main 브랜치)
+- Vercel 배포 완료 (운영 중)
+- Production 테스트 완료
+  - 랜딩 페이지 정상 로딩
+  - 신청 유형 자동 선택 정상 동작
+  - 폼 제출 → /complete 페이지 이동 정상
+  - Supabase 데이터 저장 확인
+  - /admin 로그인 및 목록 조회 정상
+- 미완료: 관리자 보안 강화
