@@ -25,8 +25,10 @@ src/
 │   │   └── [id]/
 │   │       └── page.tsx  # 관리자 상세 (/admin/:id)
 │   └── api/
-│       └── auth/
-│           └── route.ts  # 관리자 로그인 API (POST)
+│       ├── auth/
+│       │   └── route.ts  # 관리자 로그인 API (POST)
+│       └── reserve/
+│           └── route.ts  # 예약 접수 API (POST, Supabase 저장 + 이메일 알림)
 ├── lib/
 │   └── supabase.ts       # Supabase 클라이언트
 └── types/
@@ -38,6 +40,8 @@ src/
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 ADMIN_PASSWORD=...          # 서버 전용 (NEXT_PUBLIC_ 없음)
+RESEND_API_KEY=...          # Resend 이메일 API 키 (서버 전용)
+ADMIN_EMAIL=...             # 알림 수신 이메일 (서버 전용)
 ```
 
 ## 작업 규칙
@@ -102,6 +106,14 @@ ADMIN_PASSWORD=...          # 서버 전용 (NEXT_PUBLIC_ 없음)
     - `src/app/api/auth/route.ts` API Route 생성 (POST로 비밀번호 검증)
     - 클라이언트 JS 번들에 비밀번호가 노출되지 않도록 개선
     - Vercel 배포 시 `ADMIN_PASSWORD` 환경변수 수동 추가 필요
+24. 새 예약 이메일 알림 기능
+    - `resend` 패키지 설치 (무료 월 3,000건)
+    - `src/app/api/reserve/route.ts` 생성 (Supabase insert + Resend 이메일 발송)
+    - 클라이언트에서 Supabase 직접 insert → `/api/reserve` API 호출로 변경
+    - 이메일 발송 실패해도 예약 자체는 성공 처리 (알림은 부가 기능)
+    - 발신 주소: `onboarding@resend.dev` (Resend 무료 티어 기본)
+    - 수신 주소: `ADMIN_EMAIL` 환경변수로 관리
+    - Vercel 배포 시 `RESEND_API_KEY`, `ADMIN_EMAIL` 환경변수 추가 필요
 
 ## 주요 문서
 - `REQUIREMENTS.md` - 요구사항 명세서
@@ -128,4 +140,5 @@ ADMIN_PASSWORD=...          # 서버 전용 (NEXT_PUBLIC_ 없음)
   - /admin 로그인 및 목록 조회 정상
 - 관리자 보안 개선 완료 (비밀번호 변경, 문서 노출 제거, RLS 정책 추가)
 - 관리자 비밀번호 서버사이드 검증으로 전환 완료 (API Route + 환경변수)
-- Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_PASSWORD (3개)
+- 새 예약 이메일 알림 기능 추가 (Resend API)
+- Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_PASSWORD, RESEND_API_KEY, ADMIN_EMAIL (5개)

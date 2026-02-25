@@ -3,7 +3,6 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
 
 const GRADES = [
   '초1', '초2', '초3', '초4', '초5', '초6',
@@ -87,20 +86,28 @@ function ReserveForm() {
     const recent_exam_score = examScore ? examScore + '점' : ''
 
     setLoading(true)
-    const { error } = await supabase.from('reservations').insert([{
-      ...form,
-      school,
-      recent_exam_score,
-    }])
-    setLoading(false)
+    try {
+      const res = await fetch('/api/reserve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          school,
+          recent_exam_score,
+        }),
+      })
 
-    if (error) {
+      if (!res.ok) {
+        alert('오류가 발생했습니다. 다시 시도해주세요.')
+        return
+      }
+
+      router.push('/complete')
+    } catch {
       alert('오류가 발생했습니다. 다시 시도해주세요.')
-      console.error(error)
-      return
+    } finally {
+      setLoading(false)
     }
-
-    router.push('/complete')
   }
 
   return (
