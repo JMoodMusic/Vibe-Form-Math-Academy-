@@ -114,6 +114,12 @@ ADMIN_EMAIL=...             # 알림 수신 이메일 (서버 전용)
     - 발신 주소: `onboarding@resend.dev` (Resend 무료 티어 기본)
     - 수신 주소: `ADMIN_EMAIL` 환경변수로 관리
     - Vercel 배포 시 `RESEND_API_KEY`, `ADMIN_EMAIL` 환경변수 추가 필요
+25. 관리자 메모 버그 수정 + 상담 일지 템플릿
+    - Supabase RLS에 UPDATE 정책 추가 (`Allow public update`) → 메모가 실제 DB에 저장되도록 수정
+    - 메모 읽기/편집 모드 분리 (저장된 메모 → 읽기 모드 + "수정하기" 버튼, 메모 없으면 → 바로 편집 모드)
+    - 편집 모드에서 "저장" / "취소" 버튼 분리
+    - 메모가 비어있을 때 "템플릿 불러오기" 버튼 → 상담 일지 템플릿 자동 입력
+    - UPDATE 실패 시 RLS 정책 확인 안내 메시지 추가
 
 ## 주요 문서
 - `REQUIREMENTS.md` - 요구사항 명세서
@@ -141,4 +147,6 @@ ADMIN_EMAIL=...             # 알림 수신 이메일 (서버 전용)
 - 관리자 보안 개선 완료 (비밀번호 변경, 문서 노출 제거, RLS 정책 추가)
 - 관리자 비밀번호 서버사이드 검증으로 전환 완료 (API Route + 환경변수)
 - 새 예약 이메일 알림 기능 추가 (Resend API) — Production 테스트 완료 (이메일 수신 확인)
+- 관리자 메모 저장 버그 수정 완료 (RLS UPDATE 정책 추가 + 읽기/편집 모드 분리)
+- Supabase RLS 정책: SELECT (`Allow public read`) + UPDATE (`Allow public update`)
 - Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_PASSWORD, RESEND_API_KEY, ADMIN_EMAIL (5개)
